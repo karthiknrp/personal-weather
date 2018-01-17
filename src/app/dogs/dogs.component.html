@@ -1,0 +1,11 @@
+<div>
+  <button (click)="getAllDogs()">Dog Breeds</button>
+</div>
+<p>Number of breeds: {{dogs.length}}</p>
+<div class="infoblock">
+  <ul>
+    <li *ngFor="let dog of dogs;">
+        <a (click)="getBreedRandomImage(dog)">{{dog}}</a>
+    </li>
+  </ul>
+</div>
