@@ -6,23 +6,16 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { WeatherComponent } from './weather/weather.component';
-import { DogsComponent } from './dogs/dogs.component';
-import { DogsService } from './dogs.service';
-import { PenguinComponent } from './penguin/penguin.component';
 import { WeatherService } from './weather.service';
 import { WeatherParameters } from './weatherparameters';
 
 const routes : Routes = [
-  {path:'weather',component:WeatherComponent},
-  {path:'dogs',component:DogsComponent},
-  {path:'penguins',component:PenguinComponent}
+  {path:'weather',component:WeatherComponent}
 ]; 
 @NgModule({
   declarations: [
     AppComponent,
-    WeatherComponent,
-    DogsComponent,
-    PenguinComponent
+    WeatherComponent  
   ],
   imports: [
     BrowserModule,
@@ -31,7 +24,7 @@ const routes : Routes = [
     HttpModule,
     RouterModule.forRoot(routes) 
   ],
-  providers: [DogsService,WeatherService,WeatherParameters],
+  providers: [WeatherService,WeatherParameters],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
