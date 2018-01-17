@@ -20,19 +20,18 @@
       <div class="row">  
       <div class="card w-100 col-md-7">
           <p class="alert alert-danger" *ngIf='weather.err!=""'>{{weather.err}}</p>
-          <div classs="card-body" *ngIf='weather.err==""'>
+          <div class="card-body" *ngIf='weather.err==""'>
             <ul class="list-group">
               <li class="list-group-item"> 
                 <h4 class="card-title">{{weather.name}}, {{weather.sys.country}}</h4>
-                <img class="card-img-top" [src]="weather.iconImgUrl">
-                <button class="btn btn-primary" (click)="getForecastDataByCity(weather.name,weather.sys.country)">Forecast</button>
+                <img class="card-img-top" [src]="iconImgUrl+weather.weather[0].icon+'.png'">
+                <button class="btn btn-outline-primary float-right btn-sm" (click)="getForecastDataByCity(weather.name,weather.sys.country)" data-toggle="modal" data-target="#forecast">Forecast</button>
               </li>
               <li class="list-group-item"> Current temperature: {{weather.main.temp}} <sup>o</sup> {{weatherParameters.temp_type}}</li>
-              <li class="list-group-item"> High : {{weather.main.temp_max}} <sup>o</sup> {{weatherParameters.temp_type}}</li> 
-              <li class="list-group-item"> Low : {{weather.main.temp_min}} <sup>o</sup> {{weatherParameters.temp_type}}</li>
-              <li class="list-group-item"> Coordinates : Longitude : {{weather.coord.lon}} <sup>o</sup> ; Latitude : {{weather.coord.lat}} <sup>o</sup></li>
-              <li class="list-group-item"> Weather : {{weather.weather[0].description}}</li> 
+              <li class="list-group-item"> High | Low : {{weather.main.temp_max}} | {{weather.main.temp_min}} <sup>o</sup> {{weatherParameters.temp_type}}</li>
+              <li class="list-group-item"> Weather : {{weather.weather[0].description|titlecase}}</li> 
               <li class="list-group-item"> Wind : {{weather.wind.speed}} {{weatherParameters.wind_speed_rep}}</li>
+              <li class="list-group-item"> Coordinates : Longitude : {{weather.coord.lon}} <sup>o</sup> ; Latitude : {{weather.coord.lat}} <sup>o</sup></li>
             </ul>
           </div>  
         </div>
@@ -42,4 +41,28 @@
 </div>
 <div>
     Weather brought to you by OpenWeatherMap
+</div>
+
+<div class="modal" id="forecast">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Forecast</h5>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let f of forecast">
+            <ul class="list-group">
+                <li class="list-group-item"> 
+                  <h6 class="card-title">{{f.dt*1000|date:'medium'}}</h6>
+                  <img class="card-img-top" [src]="iconImgUrl+f.weather[0].icon+'.png'">
+                </li>
+                <li class="list-group-item"> Temperature: {{f.main.temp}} <sup>o</sup> {{weatherParameters.temp_type}}</li>
+                <li class="list-group-item"> High | Low : {{f.main.temp_max}} | {{f.main.temp_min}} <sup> o</sup> {{weatherParameters.temp_type}}</li>
+                <li class="list-group-item"> Weather : {{f.weather[0].description|titlecase}}</li> 
+                <li class="list-group-item"> Wind : {{f.wind.speed}} {{weatherParameters.wind_speed_rep}}</li>
+              </ul>
+        </div> 
+      </div>
+    </div>
+  </div>
 </div>

@@ -11,7 +11,7 @@ export class WeatherComponent implements OnInit {
   private cities=[];
   private citiesWeather=[];
   private iconImgUrl="http://openweathermap.org/img/w/";
-  private forecast;
+  private forecast=[];
   private forecastErr;
   private units="imperial";
   private zip;
@@ -33,7 +33,7 @@ export class WeatherComponent implements OnInit {
       .subscribe(
         ((res) => {
           weather=res.json();
-          this.iconImgUrl="http://openweathermap.org/img/w/"+weather.weather[0].icon+".png";
+          //this.iconImgUrl="http://openweathermap.org/img/w/"+weather.weather[0].icon+".png";
           this.city=weather.name;
         }),
         (error) => weather.err="City Not Found"
@@ -49,7 +49,7 @@ export class WeatherComponent implements OnInit {
           weather.setWeather(res.json().name,res.json().main,res.json().coord,res.json().weather,res.json().wind,res.json().sys);
           console.log(res.json().name);
           weather.err="";
-          weather.iconImgUrl="http://openweathermap.org/img/w/"+weather.weather[0].icon+".png";
+          //weather.iconImgUrl="http://openweathermap.org/img/w/"+weather.weather[0].icon+".png";
           }),
         (error) => weather.err="City Not Found"
       );
@@ -60,9 +60,13 @@ export class WeatherComponent implements OnInit {
   }
 
   getForecastDataByCity(city){
+    let forecast=new Forecast();
     this.weatherService.getWeatherForecastByCity(city,this.units)
-        .subscribe((res=>{this.forecast = res.json}),
-        (error)=>this.forecastErr = error
+        .subscribe(
+          (res=>{
+            this.forecast = res.json().list;
+          }),
+          (error)=>this.forecastErr = error
         );
     }
 
@@ -90,4 +94,14 @@ export class Weather{
     this.iconImgUrl=iconImgUrl;
   }
 
+}
+
+export class Forecast{
+  periodList;
+  
+  constructor(){}
+
+  setForecast(periodList?){
+    this.periodList = periodList;
+  }
 }
